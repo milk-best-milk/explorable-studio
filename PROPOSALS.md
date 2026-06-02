@@ -8,7 +8,7 @@ issue (`closes #N`).
 > small and focused, run the full gate (`lint` + `typecheck` + `test` + `build`) and only
 > commit when green, and leave a natural gap between commits.
 
-- [ ] **#1 Undo/redo in the editor** — history stack in `src/editor/store.ts`
+- [x] **#1 Undo/redo in the editor** — history stack in `src/editor/store.ts`
   (`past`/`future`, `undo`/`redo`), Cmd/Ctrl+Z + Shift, toolbar buttons. Unit tests.
 - [ ] **#2 Scatter / points chart mode** — `viz.mode='scatter'` plotting x/y point pairs;
   `src/blocks/chart` + `VizView` + editor + an example + tests.

@@ -22,11 +22,16 @@ export interface EditorState {
   doc: ExplorableDoc
   projectId: string
   selectedBlockId: string | null
+  past: ExplorableDoc[]
+  future: ExplorableDoc[]
 
   load: (doc: ExplorableDoc, projectId: string) => void
   newProject: () => string
   setTitle: (title: string) => void
   setDescription: (description: string) => void
+
+  undo: () => void
+  redo: () => void
 
   addBlock: (type: BlockType) => void
   updateBlock: (block: Block) => void
@@ -42,23 +47,43 @@ export interface EditorState {
 
 export const useEditor = create<EditorState>((set, get) => {
   const commit = (doc: ExplorableDoc) => {
+    const previous = get().doc
     scheduleSave(get().projectId, doc)
-    set({ doc })
+    set({ doc, past: [...get().past, previous].slice(-100), future: [] })
   }
 
   return {
     doc: createDoc(),
     projectId: uid('p_'),
     selectedBlockId: null,
+    past: [],
+    future: [],
 
-    load: (doc, projectId) => set({ doc: cloneDoc(doc), projectId, selectedBlockId: null }),
+    load: (doc, projectId) =>
+      set({ doc: cloneDoc(doc), projectId, selectedBlockId: null, past: [], future: [] }),
 
     newProject: () => {
       const doc = createDoc()
       const projectId = uid('p_')
       saveProject(projectId, doc)
-      set({ doc, projectId, selectedBlockId: null })
+      set({ doc, projectId, selectedBlockId: null, past: [], future: [] })
       return projectId
+    },
+
+    undo: () => {
+      const { past, doc, future, projectId } = get()
+      if (past.length === 0) return
+      const previous = past[past.length - 1]
+      scheduleSave(projectId, previous)
+      set({ doc: previous, past: past.slice(0, -1), future: [doc, ...future] })
+    },
+
+    redo: () => {
+      const { future, doc, past, projectId } = get()
+      if (future.length === 0) return
+      const next = future[0]
+      scheduleSave(projectId, next)
+      set({ doc: next, future: future.slice(1), past: [...past, doc] })
     },
 
     setTitle: (title) => commit({ ...get().doc, title }),

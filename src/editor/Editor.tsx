@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import {
   DndContext,
   closestCenter,
@@ -35,6 +35,21 @@ export function Editor() {
   const duplicateBlock = useEditor((s) => s.duplicateBlock)
   const reorderBlocks = useEditor((s) => s.reorderBlocks)
   const load = useEditor((s) => s.load)
+  const undo = useEditor((s) => s.undo)
+  const redo = useEditor((s) => s.redo)
+  const canUndo = useEditor((s) => s.past.length > 0)
+  const canRedo = useEditor((s) => s.future.length > 0)
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!(e.metaKey || e.ctrlKey) || e.key.toLowerCase() !== 'z') return
+      e.preventDefault()
+      if (e.shiftKey) redo()
+      else undo()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [undo, redo])
 
   const [toast, setToast] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
@@ -99,6 +114,12 @@ export function Editor() {
       {/* Editor column */}
       <div className="flex min-h-0 flex-col">
         <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-4 py-2 dark:border-slate-800">
+          <Button onClick={undo} disabled={!canUndo} title="Undo (⌘/Ctrl+Z)" aria-label="Undo">
+            ↶
+          </Button>
+          <Button onClick={redo} disabled={!canRedo} title="Redo (⇧⌘/Ctrl+Z)" aria-label="Redo">
+            ↷
+          </Button>
           <Button variant="primary" onClick={onShare}>
             🔗 Share
           </Button>

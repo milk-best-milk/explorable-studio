@@ -30,6 +30,25 @@ describe('editor store', () => {
     expect(s().doc.blocks.find((b) => b.id === b1.id)).toBeUndefined()
   })
 
+  it('supports undo and redo', () => {
+    s().addBlock('text')
+    s().addBlock('control')
+    expect(s().doc.blocks).toHaveLength(2)
+
+    s().undo()
+    expect(s().doc.blocks).toHaveLength(1)
+    s().undo()
+    expect(s().doc.blocks).toHaveLength(0)
+    s().redo()
+    expect(s().doc.blocks).toHaveLength(1)
+
+    // a fresh edit clears the redo stack
+    s().addBlock('math')
+    expect(s().doc.blocks).toHaveLength(2)
+    s().redo()
+    expect(s().doc.blocks).toHaveLength(2)
+  })
+
   it('manages variables', () => {
     s().addVariable({ name: 'rate', type: 'number', value: 5 })
     const v = s().doc.variables[0]
