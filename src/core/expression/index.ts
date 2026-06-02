@@ -329,6 +329,8 @@ const FUNCTIONS: Record<string, Fn> = {
   mod: (a, b) => ((a % b) + b) % b,
   clamp: (x, lo, hi) => Math.min(Math.max(x, lo), hi),
   lerp: (a, b, t) => a + (b - a) * t,
+  deg: (x) => (x * 180) / Math.PI,
+  rad: (x) => (x * Math.PI) / 180,
 }
 
 /* ------------------------------------------------------------------ *
