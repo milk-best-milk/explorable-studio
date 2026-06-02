@@ -1,0 +1,98 @@
+@import 'tailwindcss';
+
+/* Class-based dark mode (toggled by adding `.dark` to <html>). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans:
+    'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+:root {
+  color-scheme: light dark;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Rendered-explainer prose styling (no typography plugin needed). */
+.es-prose {
+  line-height: 1.7;
+}
+.es-prose > * + * {
+  margin-top: 0.85em;
+}
+.es-prose h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.es-prose h2 {
+  font-size: 1.3rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+.es-prose h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.es-prose p {
+  margin: 0;
+}
+.es-prose a {
+  color: #4f46e5;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.dark .es-prose a {
+  color: #a5b4fc;
+}
+.es-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: rgba(99, 102, 241, 0.1);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+.es-prose pre {
+  background: rgba(100, 116, 139, 0.12);
+  padding: 0.8em 1em;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.es-prose pre code {
+  background: none;
+  padding: 0;
+}
+.es-prose ul {
+  list-style: disc;
+  padding-left: 1.4em;
+}
+.es-prose ol {
+  list-style: decimal;
+  padding-left: 1.4em;
+}
+.es-prose li + li {
+  margin-top: 0.25em;
+}
+.es-prose blockquote {
+  border-left: 3px solid rgba(99, 102, 241, 0.4);
+  padding-left: 0.9em;
+  opacity: 0.85;
+}
+.es-prose strong {
+  font-weight: 650;
+}
+.es-prose hr {
+  border: 0;
+  border-top: 1px solid rgba(100, 116, 139, 0.3);
+}

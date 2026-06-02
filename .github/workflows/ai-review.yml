@@ -1,0 +1,63 @@
+name: AI PR review (Codex)
+
+# Posts an automated first-pass Codex review on pull requests, in addition to human review.
+# No-ops gracefully when the OPENAI_API_KEY secret is not configured. Skipped for forks,
+# which cannot access repository secrets.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - uses: actions/github-script@v7
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CODEX_MODEL: ${{ vars.CODEX_MODEL }}
+        with:
+          script: |
+            if (!process.env.OPENAI_API_KEY) {
+              core.info('OPENAI_API_KEY not set — skipping AI review.')
+              return
+            }
+            const { owner, repo } = context.repo
+            const pull_number = context.payload.pull_request.number
+            const model = process.env.CODEX_MODEL || 'gpt-5-codex'
+
+            const diff = await github.rest.pulls.get({
+              owner, repo, pull_number,
+              mediaType: { format: 'diff' },
+            })
+            const patch = String(diff.data).slice(0, 30000)
+
+            const res = await fetch('https://api.openai.com/v1/chat/completions', {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                model,
+                messages: [
+                  { role: 'system', content: 'You are a concise senior code reviewer. Flag real bugs, risks and concrete improvements in this PR. Use short bullet points. If it looks good, say so briefly.' },
+                  { role: 'user', content: `Review this pull request diff:\n\n${patch}` },
+                ],
+              }),
+            })
+            if (!res.ok) {
+              core.warning(`OpenAI request failed: ${res.status}`)
+              return
+            }
+            const data = await res.json()
+            const review = data.choices?.[0]?.message?.content?.trim() || 'No review produced.'
+            await github.rest.issues.createComment({
+              owner, repo, issue_number: pull_number,
+              body: `🤖 **Codex review**\n\n${review}\n\n_Automated first pass — a human will follow up._`,
+            })
