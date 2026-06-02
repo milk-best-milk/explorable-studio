@@ -32,6 +32,18 @@ describe('VizView', () => {
     const { container } = render(<VizView block={block} scope={{}} />)
     expect(container.textContent).toContain('⚠️')
   })
+
+  it('renders a dot per point in scatter mode', () => {
+    const block = createVizBlock({
+      mode: 'scatter',
+      points: [
+        { x: 'a', y: '1' },
+        { x: '2', y: 'a * 2' },
+      ],
+    })
+    const { container } = render(<VizView block={block} scope={{ a: 3 }} />)
+    expect(container.querySelectorAll('circle')).toHaveLength(2)
+  })
 })
 
 describe('ControlView', () => {

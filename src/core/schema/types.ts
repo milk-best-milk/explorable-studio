@@ -53,7 +53,14 @@ export interface Bar {
   color?: string
 }
 
-export type VizMode = 'function' | 'bars'
+export interface Point {
+  x: string // expression
+  y: string // expression
+  label?: string
+  color?: string
+}
+
+export type VizMode = 'function' | 'bars' | 'scatter'
 
 /** A live chart driven by expressions. */
 export interface VizBlock extends BaseBlock {
@@ -71,6 +78,8 @@ export interface VizBlock extends BaseBlock {
   yLabel?: string
   // bars mode: one bar per entry, height = expr
   bars?: Bar[]
+  // scatter mode: one dot per entry, position = (x, y) expressions
+  points?: Point[]
 }
 
 /** A KaTeX formula; may contain `{{ expression }}` interpolation. */

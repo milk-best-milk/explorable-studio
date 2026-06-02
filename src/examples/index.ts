@@ -176,12 +176,47 @@ const normalDistribution: ExplorableDoc = {
   ],
 }
 
+const reflection: ExplorableDoc = {
+  version: 1,
+  title: 'Reflecting a point across y = x',
+  description: "Swap a point's coordinates and watch it mirror across the diagonal.",
+  variables: [
+    { id: 'px', name: 'px', type: 'number', value: 3 },
+    { id: 'py', name: 'py', type: 'number', value: 1 },
+  ],
+  blocks: [
+    {
+      id: 't1',
+      type: 'text',
+      markdown:
+        'Take a point **P = ({{ px }}, {{ py }})**. Reflecting it across the line **y = x** just swaps its coordinates, giving **P′ = ({{ py }}, {{ px }})**. Move the sliders and watch P and P′ mirror each other.',
+    },
+    { id: 'c1', type: 'control', control: 'slider', variable: 'px', label: 'x of P', min: -5, max: 5, step: 1 },
+    { id: 'c2', type: 'control', control: 'slider', variable: 'py', label: 'y of P', min: -5, max: 5, step: 1 },
+    {
+      id: 'v1',
+      type: 'viz',
+      mode: 'scatter',
+      title: 'The coordinate plane',
+      height: 280,
+      points: [
+        { label: 'O', x: '0', y: '0', color: '#94a3b8' },
+        { label: 'P', x: 'px', y: 'py' },
+        { label: 'P′', x: 'py', y: 'px' },
+      ],
+      xLabel: 'x',
+      yLabel: 'y',
+    },
+  ],
+}
+
 export const EXAMPLES: Example[] = [
   { slug: 'compound-interest', doc: compoundInterest },
   { slug: 'one-percent', doc: onePercent },
   { slug: 'projectile', doc: projectile },
   { slug: 'sine-wave', doc: sineWave },
   { slug: 'normal-distribution', doc: normalDistribution },
+  { slug: 'reflection', doc: reflection },
 ]
 
 export function getExample(slug: string): Example | undefined {

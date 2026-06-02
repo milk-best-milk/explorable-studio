@@ -180,6 +180,7 @@ function OptionsEditor({ block, onChange }: { block: ControlBlock; onChange: (b:
 const VIZ_MODE_OPTIONS = [
   { label: 'Function plot', value: 'function' },
   { label: 'Bars', value: 'bars' },
+  { label: 'Scatter', value: 'scatter' },
 ]
 
 function VizEditor({ block, onChange }: { block: VizBlock; onChange: (b: Block) => void }) {
@@ -202,9 +203,67 @@ function VizEditor({ block, onChange }: { block: VizBlock; onChange: (b: Block) 
       </div>
       {block.mode === 'function' ? (
         <FunctionVizEditor block={block} onChange={onChange} />
+      ) : block.mode === 'scatter' ? (
+        <ScatterVizEditor block={block} onChange={onChange} />
       ) : (
         <BarsVizEditor block={block} onChange={onChange} />
       )}
+    </div>
+  )
+}
+
+function ScatterVizEditor({ block, onChange }: { block: VizBlock; onChange: (b: Block) => void }) {
+  const points = block.points ?? []
+  const setPoints = (p: VizBlock['points']) => onChange({ ...block, points: p })
+  return (
+    <div className="space-y-1">
+      <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+        Points — x and y expressions
+      </span>
+      {points.map((p, i) => (
+        <div key={i} className="flex items-center gap-1">
+          <TextInput
+            placeholder="label"
+            className="w-20 shrink-0"
+            value={p.label ?? ''}
+            onChange={(e) =>
+              setPoints(points.map((q, j) => (j === i ? { ...q, label: e.target.value || undefined } : q)))
+            }
+          />
+          <TextInput
+            placeholder="x"
+            mono
+            value={p.x}
+            onChange={(e) => setPoints(points.map((q, j) => (j === i ? { ...q, x: e.target.value } : q)))}
+          />
+          <TextInput
+            placeholder="y"
+            mono
+            value={p.y}
+            onChange={(e) => setPoints(points.map((q, j) => (j === i ? { ...q, y: e.target.value } : q)))}
+          />
+          <IconButton title="Remove" onClick={() => setPoints(points.filter((_, j) => j !== i))}>
+            ✕
+          </IconButton>
+        </div>
+      ))}
+      <Button variant="ghost" onClick={() => setPoints([...points, { x: '0', y: '0' }])}>
+        ＋ Add point
+      </Button>
+      <div className="grid grid-cols-2 gap-2 pt-1">
+        <Labeled label="x label">
+          <TextInput
+            value={block.xLabel ?? ''}
+            onChange={(e) => onChange({ ...block, xLabel: e.target.value || undefined })}
+          />
+        </Labeled>
+        <Labeled label="y label">
+          <TextInput
+            value={block.yLabel ?? ''}
+            onChange={(e) => onChange({ ...block, yLabel: e.target.value || undefined })}
+          />
+        </Labeled>
+      </div>
     </div>
   )
 }

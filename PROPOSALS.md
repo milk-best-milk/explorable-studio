@@ -10,7 +10,7 @@ issue (`closes #N`).
 
 - [x] **#1 Undo/redo in the editor** — history stack in `src/editor/store.ts`
   (`past`/`future`, `undo`/`redo`), Cmd/Ctrl+Z + Shift, toolbar buttons. Unit tests.
-- [ ] **#2 Scatter / points chart mode** — `viz.mode='scatter'` plotting x/y point pairs;
+- [x] **#2 Scatter / points chart mode** — `viz.mode='scatter'` plotting x/y point pairs;
   `src/blocks/chart` + `VizView` + editor + an example + tests.
 - [ ] **#3 Number-format filters in interpolation** — `{{ x : pct }}`, `: fixed(2)`,
   `: $`, `: commas` in `src/core/interpolate.ts`. Unit tests.

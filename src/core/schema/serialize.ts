@@ -11,7 +11,7 @@ export class SchemaError extends Error {
 const VAR_TYPES: VarType[] = ['number', 'boolean', 'string']
 const BLOCK_TYPES = ['text', 'control', 'viz', 'math']
 const CONTROL_KINDS = ['slider', 'number', 'toggle', 'select']
-const VIZ_MODES = ['function', 'bars']
+const VIZ_MODES = ['function', 'bars', 'scatter']
 
 function isObj(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v)
@@ -107,6 +107,19 @@ function validateBlock(raw: unknown, i: number): Block {
             label: typeof c.label === 'string' ? c.label : '',
             expr: c.expr as string,
             ...(typeof c.color === 'string' ? { color: c.color } : {}),
+          }))
+      }
+      if (Array.isArray(raw.points)) {
+        b.points = raw.points
+          .filter(
+            (p): p is Record<string, unknown> =>
+              isObj(p) && typeof p.x === 'string' && typeof p.y === 'string',
+          )
+          .map((p) => ({
+            x: p.x as string,
+            y: p.y as string,
+            ...(typeof p.label === 'string' ? { label: p.label } : {}),
+            ...(typeof p.color === 'string' ? { color: p.color } : {}),
           }))
       }
       return b

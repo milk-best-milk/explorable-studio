@@ -1,6 +1,7 @@
 import { compile, evaluate, type Value, type VizBlock } from '../core'
 import { LineChart, type Series } from './chart/LineChart'
 import { BarChart, type BarDatum } from './chart/BarChart'
+import { ScatterChart, type ScatterDatum } from './chart/ScatterChart'
 import { CHART_PALETTE } from './chart/scales'
 
 interface Props {
@@ -42,6 +43,32 @@ export function VizView({ block, scope }: Props) {
       <div>
         {title}
         <BarChart bars={bars} height={block.height} yLabel={block.yLabel} />
+        <ChartErrors errors={errors} />
+      </div>
+    )
+  }
+
+  if (block.mode === 'scatter') {
+    const errors: string[] = []
+    const pts: ScatterDatum[] = (block.points ?? []).map((p, i) => {
+      let x = NaN
+      let y = NaN
+      try {
+        x = num(evaluate(p.x, scope))
+      } catch (err) {
+        errors.push(`point ${i + 1} x: ${(err as Error).message}`)
+      }
+      try {
+        y = num(evaluate(p.y, scope))
+      } catch (err) {
+        errors.push(`point ${i + 1} y: ${(err as Error).message}`)
+      }
+      return { x, y, label: p.label, color: p.color || CHART_PALETTE[i % CHART_PALETTE.length] }
+    })
+    return (
+      <div>
+        {title}
+        <ScatterChart points={pts} height={block.height} xLabel={block.xLabel} yLabel={block.yLabel} />
         <ChartErrors errors={errors} />
       </div>
     )

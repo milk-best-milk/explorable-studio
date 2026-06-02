@@ -69,6 +69,7 @@ export function createVizBlock(partial: Partial<VizBlock> = {}): VizBlock {
     xLabel: partial.xLabel,
     yLabel: partial.yLabel,
     bars: partial.bars,
+    points: partial.points,
   }
 }
 
