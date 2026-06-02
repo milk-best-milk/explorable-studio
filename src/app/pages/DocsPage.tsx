@@ -71,6 +71,11 @@ export function DocsPage() {
           <strong>Functions:</strong>{' '}
           {BUILTIN_FUNCTIONS.join(', ')}.
         </p>
+        <p>
+          <strong>Format filters:</strong> append <code>| pct</code>, <code>| fixed(2)</code>,{' '}
+          <code>| commas</code> or <code>| $</code> inside <code>{'{{ }}'}</code> to format a
+          value, e.g. <code>{'{{ rate | pct }}'}</code>.
+        </p>
 
         <h2>Sharing &amp; exporting</h2>
         <ul>

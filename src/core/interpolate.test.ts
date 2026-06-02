@@ -13,6 +13,23 @@ describe('interpolate', () => {
     expect(interpolate('no placeholders', {})).toBe('no placeholders')
     expect(interpolate('{{}}', {})).toBe('')
   })
+
+  it('applies format filters', () => {
+    expect(interpolate('{{ rate | pct }}', { rate: 0.05 })).toBe('5%')
+    expect(interpolate('{{ x | fixed(2) }}', { x: 3.14159 })).toBe('3.14')
+    expect(interpolate('{{ n | commas }}', { n: 1234567 })).toBe('1,234,567')
+    expect(interpolate('{{ p | $ }}', { p: 1999.5 })).toBe('$1,999.50')
+  })
+
+  it('does not mistake || or a ternary colon for a filter', () => {
+    expect(interpolate('{{ a || b }}', { a: 0, b: 7 })).toBe('7')
+    expect(interpolate('{{ x > 0 ? 1 : 2 }}', { x: 5 })).toBe('1')
+    expect(interpolate('{{ (a || b) | fixed(1) }}', { a: 0, b: 2 })).toBe('2.0')
+  })
+
+  it('falls back to default formatting for an unknown filter', () => {
+    expect(interpolate('{{ x | wat }}', { x: 5 })).toBe('5')
+  })
 })
 
 describe('formatValue', () => {

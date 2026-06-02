@@ -12,8 +12,9 @@ issue (`closes #N`).
   (`past`/`future`, `undo`/`redo`), Cmd/Ctrl+Z + Shift, toolbar buttons. Unit tests.
 - [x] **#2 Scatter / points chart mode** — `viz.mode='scatter'` plotting x/y point pairs;
   `src/blocks/chart` + `VizView` + editor + an example + tests.
-- [ ] **#3 Number-format filters in interpolation** — `{{ x : pct }}`, `: fixed(2)`,
-  `: $`, `: commas` in `src/core/interpolate.ts`. Unit tests.
+- [x] **#3 Number-format filters in interpolation** — `{{ x | pct }}`, `| fixed(2)`,
+  `| $`, `| commas` in `src/core/interpolate.ts` (pipe delimiter avoids the ternary
+  colon). Unit tests.
 - [ ] **#4 Embeddable view + copy embed code** — `#/embed?d=` minimal route + a "Copy embed
   code" button producing an `<iframe>` snippet. e2e for the route.
 - [ ] **#5 Radio / segmented control** — new control kind `radio`; renderer + editor +
