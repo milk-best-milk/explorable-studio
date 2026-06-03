@@ -138,6 +138,18 @@ export function LineChart({ series, height = 240, xLabel, yLabel }: Props) {
         strokeWidth={1}
       />
 
+      {/* emphasised y = 0 baseline when the data crosses zero */}
+      {ymin < 0 && ymax > 0 && (
+        <line
+          x1={PAD.left}
+          x2={VW - PAD.right}
+          y1={sy(0)}
+          y2={sy(0)}
+          className="stroke-slate-400 dark:stroke-slate-500"
+          strokeWidth={1.5}
+        />
+      )}
+
       {/* series */}
       {series.map((s, i) => (
         <path
