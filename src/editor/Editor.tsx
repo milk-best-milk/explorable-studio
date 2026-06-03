@@ -21,7 +21,7 @@ import { VariablesPanel } from './VariablesPanel'
 import { Explainer } from '../viewer/Explainer'
 import { BLOCK_LIST } from '../blocks'
 import { Button } from './ui'
-import { buildShareUrl, copyToClipboard } from '../app/share'
+import { buildShareUrl, buildEmbedCode, copyToClipboard } from '../app/share'
 import { buildStandaloneHtml } from '../app/exportHtml'
 import { downloadText, slugify } from '../app/download'
 
@@ -79,6 +79,13 @@ export function Editor() {
     flash(ok ? 'Share link copied to clipboard' : 'Copy failed — link logged to console')
   }
 
+  const onEmbed = async () => {
+    const code = buildEmbedCode(doc)
+    const ok = await copyToClipboard(code)
+    if (!ok) console.log('Embed code:', code)
+    flash(ok ? 'Embed code copied to clipboard' : 'Copy failed — code logged to console')
+  }
+
   const onExportHtml = async () => {
     setBusy(true)
     try {
@@ -127,6 +134,9 @@ export function Editor() {
             {busy ? 'Exporting…' : '⬇ HTML'}
           </Button>
           <Button onClick={onExportJson}>⬇ JSON</Button>
+          <Button onClick={onEmbed} title="Copy an <iframe> embed snippet">
+            ⧉ Embed
+          </Button>
           <Button onClick={() => fileInput.current?.click()}>⬆ Import</Button>
           <input
             ref={fileInput}

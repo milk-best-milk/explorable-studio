@@ -40,3 +40,12 @@ test('exported standalone HTML boots and is interactive on its own', async ({ pa
   await expect(standalone.getByText(/After 30 years/)).toBeVisible()
   await expect(standalone.getByText(/Made with Explorable Studio/)).toBeVisible()
 })
+
+test('embed route renders the explainer without app chrome', async ({ page }) => {
+  await page.goto('#/embed?ex=compound-interest')
+  await expect(page.locator('.es-explainer')).toBeVisible()
+  await expect(page.getByText(/After 30 years/)).toBeVisible()
+  // no app header/nav in an embed
+  await expect(page.getByRole('link', { name: 'Editor' })).toHaveCount(0)
+  await expect(page.getByText(/Made with Explorable Studio/)).toBeVisible()
+})

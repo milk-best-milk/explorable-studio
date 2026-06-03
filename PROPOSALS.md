@@ -15,7 +15,7 @@ issue (`closes #N`).
 - [x] **#3 Number-format filters in interpolation** — `{{ x | pct }}`, `| fixed(2)`,
   `| $`, `| commas` in `src/core/interpolate.ts` (pipe delimiter avoids the ternary
   colon). Unit tests.
-- [ ] **#4 Embeddable view + copy embed code** — `#/embed?d=` minimal route + a "Copy embed
+- [x] **#4 Embeddable view + copy embed code** — `#/embed?d=` minimal route + a "Copy embed
   code" button producing an `<iframe>` snippet. e2e for the route.
 - [ ] **#5 Radio / segmented control** — new control kind `radio`; renderer + editor +
   serialize + tests.
