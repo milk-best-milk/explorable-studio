@@ -27,7 +27,7 @@ export interface TextBlock extends BaseBlock {
   markdown: string
 }
 
-export type ControlKind = 'slider' | 'number' | 'toggle' | 'select'
+export type ControlKind = 'slider' | 'number' | 'toggle' | 'select' | 'radio'
 
 /** An input widget bound to a variable. */
 export interface ControlBlock extends BaseBlock {

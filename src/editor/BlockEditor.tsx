@@ -57,11 +57,12 @@ const CONTROL_OPTIONS = [
   { label: 'Number', value: 'number' },
   { label: 'Toggle', value: 'toggle' },
   { label: 'Dropdown', value: 'select' },
+  { label: 'Radio', value: 'radio' },
 ]
 
 function defaultTypeFor(control: ControlBlock['control']): 'number' | 'boolean' | 'string' {
   if (control === 'toggle') return 'boolean'
-  if (control === 'select') return 'string'
+  if (control === 'select' || control === 'radio') return 'string'
   return 'number'
 }
 
@@ -138,7 +139,9 @@ function ControlEditor({ block, onChange }: { block: ControlBlock; onChange: (b:
         </div>
       )}
 
-      {block.control === 'select' && <OptionsEditor block={block} onChange={onChange} />}
+      {(block.control === 'select' || block.control === 'radio') && (
+        <OptionsEditor block={block} onChange={onChange} />
+      )}
     </div>
   )
 }

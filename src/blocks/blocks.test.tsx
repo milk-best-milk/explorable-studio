@@ -65,4 +65,22 @@ describe('ControlView', () => {
     fireEvent.click(sw)
     expect(onChange).toHaveBeenCalledWith(true)
   })
+
+  it('renders a radio / segmented control and emits the chosen value', () => {
+    const onChange = vi.fn()
+    const block = createControlBlock({
+      control: 'radio',
+      variable: 'mode',
+      label: 'Mode',
+      options: [
+        { label: 'A', value: 'a' },
+        { label: 'B', value: 'b' },
+      ],
+    })
+    render(<ControlView block={block} value="a" onChange={onChange} />)
+    const a = screen.getByRole('radio', { name: 'A' })
+    expect(a).toHaveAttribute('aria-checked', 'true')
+    fireEvent.click(screen.getByRole('radio', { name: 'B' }))
+    expect(onChange).toHaveBeenCalledWith('b')
+  })
 })

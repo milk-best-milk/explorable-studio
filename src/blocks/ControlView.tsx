@@ -76,6 +76,36 @@ export function ControlView({ block, value, onChange }: Props) {
     )
   }
 
+  if (block.control === 'radio') {
+    const radioOptions = block.options ?? []
+    return (
+      <div className="select-none">
+        <div className="mb-1 text-sm font-medium text-slate-700 dark:text-slate-200">{label}</div>
+        <div role="radiogroup" aria-label={label} className="inline-flex flex-wrap gap-1">
+          {radioOptions.map((o, i) => {
+            const active = String(o.value) === String(value)
+            return (
+              <button
+                key={i}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                onClick={() => onChange(o.value)}
+                className={`rounded-md border px-3 py-1 text-sm transition-colors ${
+                  active
+                    ? 'border-indigo-600 bg-indigo-600 text-white'
+                    : 'border-slate-300 text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700'
+                }`}
+              >
+                {o.label}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
   // select
   const options = block.options ?? []
   return (

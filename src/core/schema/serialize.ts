@@ -10,7 +10,7 @@ export class SchemaError extends Error {
 
 const VAR_TYPES: VarType[] = ['number', 'boolean', 'string']
 const BLOCK_TYPES = ['text', 'control', 'viz', 'math']
-const CONTROL_KINDS = ['slider', 'number', 'toggle', 'select']
+const CONTROL_KINDS = ['slider', 'number', 'toggle', 'select', 'radio']
 const VIZ_MODES = ['function', 'bars', 'scatter']
 
 function isObj(v: unknown): v is Record<string, unknown> {
