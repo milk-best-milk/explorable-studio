@@ -54,6 +54,12 @@ describe('expression evaluator', () => {
     expect(evaluate('sqrt(16)')).toBe(4)
   })
 
+  it('converts between degrees and radians', () => {
+    expect(evaluate('deg(pi)')).toBeCloseTo(180)
+    expect(evaluate('rad(180)')).toBeCloseTo(Math.PI)
+    expect(evaluate('sin(rad(90))')).toBeCloseTo(1)
+  })
+
   it('extracts variable references, excluding constants and functions', () => {
     expect(references('a + b * 2 + sin(c)')).toEqual(['a', 'b', 'c'])
     expect(references('pi * r ^ 2')).toEqual(['r'])
