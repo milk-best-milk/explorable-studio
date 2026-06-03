@@ -297,6 +297,17 @@ const CONSTANTS: Record<string, Value> = {
   false: false,
 }
 
+function intGcd(a: number, b: number): number {
+  a = Math.abs(Math.trunc(a))
+  b = Math.abs(Math.trunc(b))
+  while (b) {
+    const t = b
+    b = a % b
+    a = t
+  }
+  return a
+}
+
 type Fn = (...args: number[]) => number
 const FUNCTIONS: Record<string, Fn> = {
   abs: Math.abs,
@@ -331,6 +342,11 @@ const FUNCTIONS: Record<string, Fn> = {
   lerp: (a, b, t) => a + (b - a) * t,
   deg: (x) => (x * 180) / Math.PI,
   rad: (x) => (x * Math.PI) / 180,
+  gcd: (a, b) => intGcd(a, b),
+  lcm: (a, b) => {
+    const g = intGcd(a, b)
+    return g === 0 ? 0 : Math.abs(Math.trunc(a) * Math.trunc(b)) / g
+  },
 }
 
 /* ------------------------------------------------------------------ *
