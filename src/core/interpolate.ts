@@ -53,7 +53,7 @@ function splitFilter(inner: string): { expr: string; filter?: string } {
   return { expr: inner.trim() }
 }
 
-/** Apply a display filter to a value: `pct`, `fixed(k)`, `commas`, `$`/`usd`. */
+/** Apply a display filter to a value: `pct`, `fixed(k)`, `commas`, `$`/`usd`, `ordinal`. */
 function applyFilter(value: Value, filter: string): string {
   const n = typeof value === 'number' ? value : Number(value)
   const m = filter.match(/^([A-Za-z$]+)(?:\(\s*(-?\d+)\s*\))?$/)
@@ -70,6 +70,12 @@ function applyFilter(value: Value, filter: string): string {
     case '$':
     case 'usd':
       return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    case 'ordinal': {
+      const k = Math.trunc(n)
+      const suffix = ['th', 'st', 'nd', 'rd']
+      const v = Math.abs(k) % 100
+      return `${k}${suffix[(v - 20) % 10] ?? suffix[v] ?? suffix[0]}`
+    }
     default:
       return formatValue(value)
   }

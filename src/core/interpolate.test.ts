@@ -30,6 +30,15 @@ describe('interpolate', () => {
   it('falls back to default formatting for an unknown filter', () => {
     expect(interpolate('{{ x | wat }}', { x: 5 })).toBe('5')
   })
+
+  it('formats ordinals', () => {
+    expect(interpolate('{{ 1 | ordinal }}', {})).toBe('1st')
+    expect(interpolate('{{ 2 | ordinal }}', {})).toBe('2nd')
+    expect(interpolate('{{ 3 | ordinal }}', {})).toBe('3rd')
+    expect(interpolate('{{ 4 | ordinal }}', {})).toBe('4th')
+    expect(interpolate('{{ 11 | ordinal }}', {})).toBe('11th')
+    expect(interpolate('{{ 21 | ordinal }}', {})).toBe('21st')
+  })
 })
 
 describe('formatValue', () => {
