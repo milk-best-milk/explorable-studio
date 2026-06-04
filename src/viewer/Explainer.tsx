@@ -6,6 +6,8 @@ interface Props {
   doc: ExplorableDoc
   /** Show the document title & description header (default true). */
   showHeader?: boolean
+  /** Distraction-free reading layout: wider column, larger type. */
+  reader?: boolean
 }
 
 /**
@@ -14,7 +16,7 @@ interface Props {
  * every block. The exact same component powers the editor preview, shared links and
  * the exported standalone HTML — so authors get true WYSIWYG.
  */
-export function Explainer({ doc, showHeader = true }: Props) {
+export function Explainer({ doc, showHeader = true, reader = false }: Props) {
   const [overrides, setOverrides] = useState<Record<string, Value>>({})
 
   const { scope } = useMemo(
@@ -26,7 +28,11 @@ export function Explainer({ doc, showHeader = true }: Props) {
     setOverrides((prev) => ({ ...prev, [variable]: value }))
 
   return (
-    <article className="es-explainer mx-auto w-full max-w-2xl text-slate-800 dark:text-slate-100">
+    <article
+      className={`es-explainer mx-auto w-full text-slate-800 dark:text-slate-100 ${
+        reader ? 'max-w-3xl text-lg' : 'max-w-2xl'
+      }`}
+    >
       {showHeader && (
         <header className="mb-6">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">

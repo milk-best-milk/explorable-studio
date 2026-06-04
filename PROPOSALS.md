@@ -19,7 +19,7 @@ issue (`closes #N`).
   code" button producing an `<iframe>` snippet. e2e for the route.
 - [x] **#5 Radio / segmented control** — new control kind `radio`; renderer + editor +
   serialize + tests.
-- [ ] **#6 Reader / presentation mode** — distraction-free viewer (wider, larger type, no
+- [x] **#6 Reader / presentation mode** — distraction-free viewer (wider, larger type, no
   chrome) via a toggle + URL flag.
 - [ ] **#7 Per-explainer accent color** — doc-level `theme.accent` applied to controls and
   chart curves; editor color picker; serialize + default.

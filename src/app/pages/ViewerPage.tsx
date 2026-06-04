@@ -5,9 +5,17 @@ import { getExample } from '../../examples'
 import { Explainer } from '../../viewer/Explainer'
 
 export function ViewerPage() {
-  const [params] = useSearchParams()
+  const [params, setParams] = useSearchParams()
   const d = params.get('d')
   const ex = params.get('ex')
+  const reader = params.get('reader') === '1'
+
+  const toggleReader = () => {
+    const next = new URLSearchParams(params)
+    if (reader) next.delete('reader')
+    else next.set('reader', '1')
+    setParams(next, { replace: true })
+  }
 
   const result = useMemo<{ doc?: ExplorableDoc; error?: string }>(() => {
     try {
@@ -39,21 +47,32 @@ export function ViewerPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="mx-auto max-w-2xl px-4 py-8">
-        <div className="mb-5 flex justify-end">
-          <Link
-            to={remixTo}
+      <div className={`mx-auto px-4 ${reader ? 'max-w-3xl py-12' : 'max-w-2xl py-8'}`}>
+        <div className="mb-5 flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={toggleReader}
             className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800"
           >
-            ✨ Remix in editor
-          </Link>
+            {reader ? '✕ Exit reader' : '📖 Reader mode'}
+          </button>
+          {!reader && (
+            <Link
+              to={remixTo}
+              className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800"
+            >
+              ✨ Remix in editor
+            </Link>
+          )}
         </div>
-        <Explainer doc={result.doc} />
-        <footer className="mt-12 border-t border-slate-200 pt-4 text-center text-sm text-slate-400 dark:border-slate-800">
-          <Link to="/" className="hover:text-indigo-500">
-            Made with Explorable Studio
-          </Link>
-        </footer>
+        <Explainer doc={result.doc} reader={reader} />
+        {!reader && (
+          <footer className="mt-12 border-t border-slate-200 pt-4 text-center text-sm text-slate-400 dark:border-slate-800">
+            <Link to="/" className="hover:text-indigo-500">
+              Made with Explorable Studio
+            </Link>
+          </footer>
+        )}
       </div>
     </div>
   )

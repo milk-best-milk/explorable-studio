@@ -49,3 +49,13 @@ test('embed route renders the explainer without app chrome', async ({ page }) =>
   await expect(page.getByRole('link', { name: 'Editor' })).toHaveCount(0)
   await expect(page.getByText(/Made with Explorable Studio/)).toBeVisible()
 })
+
+test('reader mode hides chrome and is toggleable', async ({ page }) => {
+  await page.goto('#/view?ex=compound-interest&reader=1')
+  await expect(page.locator('.es-explainer')).toBeVisible()
+  // the remix link is hidden in reader mode
+  await expect(page.getByRole('link', { name: /Remix in editor/ })).toHaveCount(0)
+  // exiting reader mode brings the chrome back
+  await page.getByRole('button', { name: /Exit reader/ }).click()
+  await expect(page.getByRole('link', { name: /Remix in editor/ })).toBeVisible()
+})
