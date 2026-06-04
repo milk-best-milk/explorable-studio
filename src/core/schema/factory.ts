@@ -1,5 +1,6 @@
 import type {
   Block,
+  CalloutBlock,
   ControlBlock,
   ControlKind,
   ExplorableDoc,
@@ -82,6 +83,15 @@ export function createMathBlock(partial: Partial<MathBlock> = {}): MathBlock {
   }
 }
 
+export function createCalloutBlock(partial: Partial<CalloutBlock> = {}): CalloutBlock {
+  return {
+    id: partial.id ?? uid('b_'),
+    type: 'callout',
+    variant: partial.variant ?? 'info',
+    markdown: partial.markdown ?? 'A helpful note. Supports **Markdown** and `{{ values }}`.',
+  }
+}
+
 export function createBlock(type: Block['type']): Block {
   switch (type) {
     case 'text':
@@ -92,6 +102,8 @@ export function createBlock(type: Block['type']): Block {
       return createVizBlock()
     case 'math':
       return createMathBlock()
+    case 'callout':
+      return createCalloutBlock()
   }
 }
 

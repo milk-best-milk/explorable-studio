@@ -1,4 +1,4 @@
-import type { Block, ControlBlock, MathBlock, TextBlock, VizBlock } from '../core'
+import type { Block, CalloutBlock, ControlBlock, MathBlock, TextBlock, VizBlock } from '../core'
 import { useEditor } from './store'
 import { Labeled, TextInput, Textarea, Select, Button, IconButton } from './ui'
 
@@ -13,7 +13,37 @@ export function BlockEditor({ block, onChange }: { block: Block; onChange: (b: B
       return <VizEditor block={block} onChange={onChange} />
     case 'math':
       return <MathEditor block={block} onChange={onChange} />
+    case 'callout':
+      return <CalloutEditor block={block} onChange={onChange} />
   }
+}
+
+const CALLOUT_VARIANT_OPTIONS = [
+  { label: 'Info', value: 'info' },
+  { label: 'Tip', value: 'tip' },
+  { label: 'Warning', value: 'warning' },
+]
+
+function CalloutEditor({ block, onChange }: { block: CalloutBlock; onChange: (b: Block) => void }) {
+  return (
+    <div className="space-y-2">
+      <Labeled label="Style">
+        <Select
+          value={block.variant}
+          options={CALLOUT_VARIANT_OPTIONS}
+          onChange={(e) => onChange({ ...block, variant: e.target.value as CalloutBlock['variant'] })}
+        />
+      </Labeled>
+      <Labeled label="Markdown" hint="Supports {{ expression }} interpolation.">
+        <Textarea
+          mono
+          rows={3}
+          value={block.markdown}
+          onChange={(e) => onChange({ ...block, markdown: e.target.value })}
+        />
+      </Labeled>
+    </div>
+  )
 }
 
 function TextEditor({ block, onChange }: { block: TextBlock; onChange: (b: Block) => void }) {

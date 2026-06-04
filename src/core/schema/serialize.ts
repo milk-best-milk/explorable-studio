@@ -1,4 +1,12 @@
-import type { Block, ControlKind, ExplorableDoc, Value, Variable, VarType } from './types'
+import type {
+  Block,
+  CalloutVariant,
+  ControlKind,
+  ExplorableDoc,
+  Value,
+  Variable,
+  VarType,
+} from './types'
 import { DOC_VERSION } from './types'
 
 export class SchemaError extends Error {
@@ -9,7 +17,8 @@ export class SchemaError extends Error {
 }
 
 const VAR_TYPES: VarType[] = ['number', 'boolean', 'string']
-const BLOCK_TYPES = ['text', 'control', 'viz', 'math']
+const BLOCK_TYPES = ['text', 'control', 'viz', 'math', 'callout']
+const CALLOUT_VARIANTS = ['info', 'tip', 'warning']
 const CONTROL_KINDS = ['slider', 'number', 'toggle', 'select', 'radio']
 const VIZ_MODES = ['function', 'bars', 'scatter']
 
@@ -132,6 +141,17 @@ function validateBlock(raw: unknown, i: number): Block {
       }
       if (typeof raw.display === 'boolean') b.display = raw.display
       return b
+    }
+    case 'callout': {
+      const variant = CALLOUT_VARIANTS.includes(raw.variant as string)
+        ? (raw.variant as CalloutVariant)
+        : 'info'
+      return {
+        id,
+        type: 'callout',
+        variant,
+        markdown: typeof raw.markdown === 'string' ? raw.markdown : '',
+      }
     }
   }
   throw new SchemaError(`blocks[${i}] could not be parsed`)

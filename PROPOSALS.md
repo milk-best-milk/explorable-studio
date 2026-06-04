@@ -23,7 +23,7 @@ issue (`closes #N`).
   chrome) via a toggle + URL flag.
 - [x] **#7 Per-explainer accent color** — doc-level `theme.accent` applied to controls and
   chart curves; editor color picker; serialize + default.
-- [ ] **#8 Callout block (info/tip/warning)** — new block type `callout`; renderer + editor +
+- [x] **#8 Callout block (info/tip/warning)** — new block type `callout`; renderer + editor +
   schema + tests.
 - [ ] **#9 Rename & duplicate projects on the gallery** — inline rename, duplicate, and a
   delete confirmation on the home page. Store + UI.

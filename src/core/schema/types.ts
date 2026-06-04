@@ -89,7 +89,16 @@ export interface MathBlock extends BaseBlock {
   display?: boolean
 }
 
-export type Block = TextBlock | ControlBlock | VizBlock | MathBlock
+export type CalloutVariant = 'info' | 'tip' | 'warning'
+
+/** A styled info/tip/warning box with Markdown + interpolation. */
+export interface CalloutBlock extends BaseBlock {
+  type: 'callout'
+  variant: CalloutVariant
+  markdown: string
+}
+
+export type Block = TextBlock | ControlBlock | VizBlock | MathBlock | CalloutBlock
 export type BlockType = Block['type']
 
 export interface DocTheme {

@@ -3,6 +3,7 @@ import { TextView } from './TextView'
 import { MathView } from './MathView'
 import { ControlView } from './ControlView'
 import { VizView } from './VizView'
+import { CalloutView } from './CalloutView'
 
 interface Props {
   block: Block
@@ -19,6 +20,8 @@ export function BlockView({ block, scope, onControlChange }: Props) {
       return <MathView tex={block.tex} display={block.display} scope={scope} />
     case 'viz':
       return <VizView block={block} scope={scope} />
+    case 'callout':
+      return <CalloutView block={block} scope={scope} />
     case 'control':
       return (
         <ControlView

@@ -3,7 +3,8 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { TextView } from './TextView'
 import { VizView } from './VizView'
 import { ControlView } from './ControlView'
-import { createVizBlock, createControlBlock } from '../core'
+import { CalloutView } from './CalloutView'
+import { createVizBlock, createControlBlock, createCalloutBlock } from '../core'
 
 describe('TextView', () => {
   it('renders Markdown with interpolated values', () => {
@@ -82,5 +83,15 @@ describe('ControlView', () => {
     expect(a).toHaveAttribute('aria-checked', 'true')
     fireEvent.click(screen.getByRole('radio', { name: 'B' }))
     expect(onChange).toHaveBeenCalledWith('b')
+  })
+})
+
+describe('CalloutView', () => {
+  it('renders interpolated Markdown inside a note box', () => {
+    const block = createCalloutBlock({ variant: 'warning', markdown: 'Careful: **{{ x }}**' })
+    const { container } = render(<CalloutView block={block} scope={{ x: 9 }} />)
+    expect(screen.getByRole('note')).toBeInTheDocument()
+    expect(container.textContent).toContain('Careful: 9')
+    expect(container.querySelector('strong')?.textContent).toBe('9')
   })
 })

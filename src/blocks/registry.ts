@@ -13,6 +13,7 @@ export const BLOCK_LIST: BlockMeta[] = [
   { type: 'control', label: 'Control', description: 'Slider, number, toggle or select', icon: '🎚️' },
   { type: 'viz', label: 'Chart', description: 'Plot a function or compare bars', icon: '📈' },
   { type: 'math', label: 'Math', description: 'A KaTeX formula', icon: '∑' },
+  { type: 'callout', label: 'Callout', description: 'Info / tip / warning box', icon: '💡' },
 ]
 
 export const BLOCK_META: Record<BlockType, BlockMeta> = Object.fromEntries(
