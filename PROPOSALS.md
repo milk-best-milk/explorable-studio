@@ -25,7 +25,7 @@ issue (`closes #N`).
   chart curves; editor color picker; serialize + default.
 - [x] **#8 Callout block (info/tip/warning)** — new block type `callout`; renderer + editor +
   schema + tests.
-- [ ] **#9 Rename & duplicate projects on the gallery** — inline rename, duplicate, and a
+- [x] **#9 Rename & duplicate projects on the gallery** — inline rename, duplicate, and a
   delete confirmation on the home page. Store + UI.
 - [ ] **#10 Reset-to-defaults button in the viewer** — clears reader-set control overrides
   back to the document defaults.
