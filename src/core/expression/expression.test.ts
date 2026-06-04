@@ -60,6 +60,12 @@ describe('expression evaluator', () => {
     expect(evaluate('sin(rad(90))')).toBeCloseTo(1)
   })
 
+  it('rounds to an optional number of decimal places', () => {
+    expect(evaluate('round(3.14159)')).toBe(3)
+    expect(evaluate('round(3.14159, 2)')).toBe(3.14)
+    expect(evaluate('round(12345, -2)')).toBe(12300)
+  })
+
   it('computes gcd and lcm', () => {
     expect(evaluate('gcd(12, 18)')).toBe(6)
     expect(evaluate('lcm(4, 6)')).toBe(12)
