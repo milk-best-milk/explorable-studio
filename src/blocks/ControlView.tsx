@@ -20,7 +20,8 @@ export function ControlView({ block, value, onChange }: Props) {
         </div>
         <input
           type="range"
-          className="w-full accent-indigo-600"
+          className="w-full"
+          style={{ accentColor: 'var(--es-accent, #4f46e5)' }}
           min={block.min ?? 0}
           max={block.max ?? 100}
           step={block.step ?? 1}
@@ -62,8 +63,9 @@ export function ControlView({ block, value, onChange }: Props) {
           aria-checked={on}
           aria-label={label}
           onClick={() => onChange(!on)}
+          style={on ? { backgroundColor: 'var(--es-accent, #4f46e5)' } : undefined}
           className={`relative h-6 w-11 rounded-full transition-colors ${
-            on ? 'bg-indigo-600' : 'bg-slate-300 dark:bg-slate-600'
+            on ? '' : 'bg-slate-300 dark:bg-slate-600'
           }`}
         >
           <span
@@ -91,9 +93,14 @@ export function ControlView({ block, value, onChange }: Props) {
                 role="radio"
                 aria-checked={active}
                 onClick={() => onChange(o.value)}
+                style={
+                  active
+                    ? { backgroundColor: 'var(--es-accent, #4f46e5)', borderColor: 'var(--es-accent, #4f46e5)' }
+                    : undefined
+                }
                 className={`rounded-md border px-3 py-1 text-sm transition-colors ${
                   active
-                    ? 'border-indigo-600 bg-indigo-600 text-white'
+                    ? 'text-white'
                     : 'border-slate-300 text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700'
                 }`}
               >

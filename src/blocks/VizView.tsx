@@ -13,6 +13,12 @@ function num(v: Value): number {
   return typeof v === 'number' ? v : Number(v)
 }
 
+/** The primary series inherits the explainer's accent colour; the rest use the palette. */
+function seriesColor(explicit: string | undefined, i: number): string {
+  if (explicit) return explicit
+  return i === 0 ? 'var(--es-accent, #4f46e5)' : CHART_PALETTE[i % CHART_PALETTE.length]
+}
+
 function tryEval(expr: string | undefined, scope: Record<string, Value>, fallback: number): number {
   if (!expr) return fallback
   try {
@@ -37,7 +43,7 @@ export function VizView({ block, scope }: Props) {
       } catch (err) {
         errors.push(`${b.label || `bar ${i + 1}`}: ${(err as Error).message}`)
       }
-      return { label: b.label || `#${i + 1}`, value, color: b.color || CHART_PALETTE[i % CHART_PALETTE.length] }
+      return { label: b.label || `#${i + 1}`, value, color: seriesColor(b.color, i) }
     })
     return (
       <div>
@@ -63,7 +69,7 @@ export function VizView({ block, scope }: Props) {
       } catch (err) {
         errors.push(`point ${i + 1} y: ${(err as Error).message}`)
       }
-      return { x, y, label: p.label, color: p.color || CHART_PALETTE[i % CHART_PALETTE.length] }
+      return { x, y, label: p.label, color: seriesColor(p.color, i) }
     })
     return (
       <div>
@@ -82,7 +88,7 @@ export function VizView({ block, scope }: Props) {
   const errors: string[] = []
 
   const series: Series[] = (block.curves ?? []).map((curve, i) => {
-    const color = curve.color || CHART_PALETTE[i % CHART_PALETTE.length]
+    const color = seriesColor(curve.color, i)
     let compiled: ReturnType<typeof compile>
     try {
       compiled = compile(curve.expr)

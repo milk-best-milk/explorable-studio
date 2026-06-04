@@ -24,6 +24,11 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Per-explainer accent colour (overridden inline by a document's theme). */
+.es-explainer {
+  --es-accent: #4f46e5;
+}
+
 /* Rendered-explainer prose styling (no typography plugin needed). */
 .es-prose {
   line-height: 1.7;

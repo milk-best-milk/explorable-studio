@@ -157,6 +157,9 @@ export function parseDoc(input: unknown): ExplorableDoc {
     version: DOC_VERSION,
     title: typeof raw.title === 'string' ? raw.title : 'Untitled explainer',
     ...(typeof raw.description === 'string' ? { description: raw.description } : {}),
+    ...(isObj(raw.theme) && typeof raw.theme.accent === 'string'
+      ? { theme: { accent: raw.theme.accent } }
+      : {}),
     variables,
     blocks,
   }

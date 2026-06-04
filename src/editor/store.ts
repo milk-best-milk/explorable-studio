@@ -29,6 +29,7 @@ export interface EditorState {
   newProject: () => string
   setTitle: (title: string) => void
   setDescription: (description: string) => void
+  setAccent: (accent: string | undefined) => void
 
   undo: () => void
   redo: () => void
@@ -88,6 +89,7 @@ export const useEditor = create<EditorState>((set, get) => {
 
     setTitle: (title) => commit({ ...get().doc, title }),
     setDescription: (description) => commit({ ...get().doc, description }),
+    setAccent: (accent) => commit({ ...get().doc, theme: accent ? { accent } : undefined }),
 
     addBlock: (type) => {
       const block = createBlock(type)

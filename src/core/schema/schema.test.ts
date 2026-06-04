@@ -41,6 +41,11 @@ describe('schema serialize/parse', () => {
     expect(parsed.blocks[0]).toMatchObject({ type: 'text', markdown: 'hi' })
   })
 
+  it('preserves a valid accent theme and drops an invalid one', () => {
+    expect(parseDoc({ version: 1, theme: { accent: '#22c55e' }, blocks: [] }).theme?.accent).toBe('#22c55e')
+    expect(parseDoc({ version: 1, theme: { accent: 123 }, blocks: [] }).theme).toBeUndefined()
+  })
+
   it('rejects invalid documents', () => {
     expect(() => parseDoc('not json')).toThrow(SchemaError)
     expect(() => parseDoc(42)).toThrow(SchemaError)

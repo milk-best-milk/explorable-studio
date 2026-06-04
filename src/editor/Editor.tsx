@@ -29,6 +29,7 @@ export function Editor() {
   const doc = useEditor((s) => s.doc)
   const setTitle = useEditor((s) => s.setTitle)
   const setDescription = useEditor((s) => s.setDescription)
+  const setAccent = useEditor((s) => s.setAccent)
   const addBlock = useEditor((s) => s.addBlock)
   const updateBlock = useEditor((s) => s.updateBlock)
   const removeBlock = useEditor((s) => s.removeBlock)
@@ -168,6 +169,21 @@ export function Editor() {
               aria-label="Description"
               className="mt-1 w-full bg-transparent text-sm text-slate-500 outline-none placeholder:text-slate-300 dark:placeholder:text-slate-600"
             />
+            <div className="mt-2 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+              <span>Accent</span>
+              <input
+                type="color"
+                aria-label="Accent colour"
+                value={doc.theme?.accent ?? '#4f46e5'}
+                onChange={(e) => setAccent(e.target.value)}
+                className="h-6 w-8 cursor-pointer rounded border border-slate-300 bg-transparent dark:border-slate-600"
+              />
+              {doc.theme?.accent && (
+                <button type="button" className="hover:underline" onClick={() => setAccent(undefined)}>
+                  reset
+                </button>
+              )}
+            </div>
           </div>
 
           <Section title="Variables" defaultOpen>

@@ -21,7 +21,7 @@ issue (`closes #N`).
   serialize + tests.
 - [x] **#6 Reader / presentation mode** — distraction-free viewer (wider, larger type, no
   chrome) via a toggle + URL flag.
-- [ ] **#7 Per-explainer accent color** — doc-level `theme.accent` applied to controls and
+- [x] **#7 Per-explainer accent color** — doc-level `theme.accent` applied to controls and
   chart curves; editor color picker; serialize + default.
 - [ ] **#8 Callout block (info/tip/warning)** — new block type `callout`; renderer + editor +
   schema + tests.

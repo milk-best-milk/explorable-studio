@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type CSSProperties } from 'react'
 import { computeScope, type ExplorableDoc, type Value } from '../core'
 import { BlockView } from '../blocks'
 
@@ -27,8 +27,11 @@ export function Explainer({ doc, showHeader = true, reader = false }: Props) {
   const onControlChange = (variable: string, value: Value) =>
     setOverrides((prev) => ({ ...prev, [variable]: value }))
 
+  const accent = doc.theme?.accent
+
   return (
     <article
+      style={accent ? ({ '--es-accent': accent } as unknown as CSSProperties) : undefined}
       className={`es-explainer mx-auto w-full text-slate-800 dark:text-slate-100 ${
         reader ? 'max-w-3xl text-lg' : 'max-w-2xl'
       }`}

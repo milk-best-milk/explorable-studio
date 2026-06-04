@@ -92,10 +92,16 @@ export interface MathBlock extends BaseBlock {
 export type Block = TextBlock | ControlBlock | VizBlock | MathBlock
 export type BlockType = Block['type']
 
+export interface DocTheme {
+  /** Accent colour (CSS colour) applied to controls and the primary chart series. */
+  accent?: string
+}
+
 export interface ExplorableDoc {
   version: 1
   title: string
   description?: string
+  theme?: DocTheme
   variables: Variable[]
   blocks: Block[]
 }
