@@ -331,7 +331,10 @@ const FUNCTIONS: Record<string, Fn> = {
   tanh: Math.tanh,
   floor: Math.floor,
   ceil: Math.ceil,
-  round: Math.round,
+  round: (x, k) => {
+    const f = Math.pow(10, k ?? 0)
+    return Math.round(x * f) / f
+  },
   trunc: Math.trunc,
   pow: Math.pow,
   hypot: (...a) => Math.hypot(...a),
